@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Users\Http\Controllers\Auth\UsersController as AuthUsersController;
 use Modules\Users\Http\Controllers\UsersController;
 
 /*
@@ -14,6 +15,6 @@ use Modules\Users\Http\Controllers\UsersController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('users', UsersController::class)->names('users');
-});
+// Route::group([], function () {
+//     Route::resource('users', UsersController::class)->names('users');
+// });

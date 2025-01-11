@@ -4,8 +4,12 @@ namespace Modules\Users\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Modules\Users\Services\IUserService;
-use Modules\Users\Services\Auth\UserService;
+use Modules\Users\Services\Auth\IUserLoginService as AuthIUserLoginService;
+use Modules\Users\Services\Auth\IUserSignUpService as AuthIUserSignUpService;
+use Modules\Users\Services\Auth\UserLoginService;
+use Modules\Users\Services\Auth\UserSignUpService;
+use Modules\Users\Services\IUserLoginService;
+use Modules\Users\Services\IUserSignUpService;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -13,7 +17,7 @@ use RecursiveIteratorIterator;
 class UsersServiceProvider extends ServiceProvider
 {
     use PathNamespace;
-
+//
     protected string $name = 'Users';
 
     protected string $nameLower = 'users';
@@ -45,7 +49,9 @@ class UsersServiceProvider extends ServiceProvider
 
     }
     private function UserServices(){
-        $this->app->bind(IUserService::class,UserService::class);
+        $this->app->bind(AuthIUserSignUpService::class,UserSignUpService::class);
+        $this->app->bind(AuthIUserLoginService::class,UserLoginService::class);
+
     }
 
     /**

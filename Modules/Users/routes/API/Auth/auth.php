@@ -3,7 +3,9 @@
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UsersControlle;
 use Illuminate\Support\Facades\Route;
-use Modules\Users\Http\Controllers\Auth\UsersController;
+use Modules\Users\Http\Controllers\Auth\UserLoginController;
+use Modules\Users\Http\Controllers\Auth\UserSignUpController;
+use Modules\Users\Http\Controllers\Auth\UsersSignUpController;
 use Modules\Users\Http\Controllers\BaseController;
 
 /*
@@ -17,6 +19,6 @@ use Modules\Users\Http\Controllers\BaseController;
  *
 */
 
-Route::post('/register',[UsersController::class,'signUp'])->name('user.signUp');
-Route::get('/test',[UsersController::class,'test'])->name('user.signUp');
-
+Route::post('/register',[UserSignUpController::class,'signUp'])->name('user.signUp');
+ 
+Route::post('/login',[UserLoginController::class,'login'])->name('user.login');

@@ -4,19 +4,19 @@ namespace Modules\Users\Repositories\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Modules\Users\Http\Requests\signUpRequest;
+use Modules\Users\Http\Requests\LoginRequest;
+use Modules\Users\Http\Requests\SignUpRequest;
 use Modules\Users\Repositories\BaseRepository;
 
-class UserRepository extends BaseRepository 
+class UserLoginRepository extends BaseRepository 
 {
     public function __construct(User $model)
     {
         parent::__construct($model);
     }
-    
-    public function signUp(signUpRequest $data)
+
+    public function login(LoginRequest $data)
     {
-        return User::create($data->validated());
-      
+        return User::where('email',$data['email'])->first();
     }
 }
