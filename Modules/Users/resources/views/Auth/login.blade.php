@@ -65,13 +65,13 @@
                                         <form method="POST" action="{{ route('auth.login.submit') }}" id="login-form">
                                             @csrf
                         <div class="form-group">
-                            <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="email" id="email"
-                                   value="{{ old('email') }}"
+                            <label for="emailOrPhone"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="emailOrPhone" id="emailOrPhone"
+                                   value="{{ old('emailOrPhone') }}"
                                    placeholder="Enter Your email or phone"/>
-@error('email')
-                            <span class="text-danger">{{ $message }}</span>
-@enderror
+{{-- @error('email') --}}
+                            {{-- <span class="text-danger">{{ $message }}</span>
+@enderror --}}
                         </div>
                         <div class="form-group">
                             <label for="password"><i class="zmdi zmdi-lock"></i></label>

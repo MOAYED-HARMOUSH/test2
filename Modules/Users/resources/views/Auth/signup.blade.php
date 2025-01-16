@@ -168,12 +168,12 @@
             <!-- Name fields side by side -->
             <div class="name-group">
                 <div class="form-group">
-                    <label for="fName">First Name:</label>
-                    <input type="text" id="fName" name="fName" required>
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" required>
                 </div>
                 <div class="form-group">
-                    <label for="lName">Last Name:</label>
-                    <input type="text" id="lName" name="lName" required>
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" required>
                 </div>
             </div>
 

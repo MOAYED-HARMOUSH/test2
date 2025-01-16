@@ -34,10 +34,19 @@ class UserLoginController extends Controller
         
         //
         {
-            $credentials = $request->only('email', 'password');
+            $loginInput = $request->input('emailOrPhone');
+            $password = $request->input('password');
             $remember = $request->has('remember');
+            
+            $credentials = [];
+            
+            if (filter_var($loginInput, FILTER_VALIDATE_EMAIL)) {
+                $credentials = ['email' => $loginInput, 'password' => $password];
+            } else {
+                $credentials = ['phone' => $loginInput, 'password' => $password];
+            }
     
-            if (Auth::attempt($credentials, $remember)) {
+            if (Auth::attempt($credentials, $remember )) {
                 // Generate Refresh Token
                 $refreshToken = Str::random(64);
                 $expiresAt = now()->addDays(30); // Ensure '30' is an integer

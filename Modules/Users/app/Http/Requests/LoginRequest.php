@@ -12,9 +12,10 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'email|max:60|email',
-            'phone' => 'string|phone',
+            // 'email' => 'email|max:60|',
+            // 'phone' => 'string|phone',
             'password' => 'required|string|min:8',
+            'emailOrPhone'=>'required'
         ];
     }
     public function messages()
