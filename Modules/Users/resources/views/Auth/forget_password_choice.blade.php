@@ -110,7 +110,7 @@
             </div>
         @endif
 
-        <form action="{{ route('auth.password.reset.choice') }}" method="POST">
+        <form action="{{ route('password.email') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label>

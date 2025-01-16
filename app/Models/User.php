@@ -12,6 +12,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +20,8 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = ['country','lastName', 'firstName','email', 'phone', 'role', 'password'];
+
+
 
 
     /**

@@ -25,7 +25,7 @@ class UserSignUpRepository extends BaseRepository
 return $user;
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() === '23000') { // رمز الخطأ لتكرار القيم الفريدة
-                throw new \Exception('The email has already been taken.');
+                throw new \Exception('The Email has already been taken.');
             }
             throw new \Exception('An error occurred while creating the user.');
         }      

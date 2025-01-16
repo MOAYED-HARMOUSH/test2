@@ -46,7 +46,7 @@
                     <img src="{{asset('/images/authImages/sign-in.jpg')}}" alt="sing up image" style="height: 400px ; width: 800px ;position: relative ; left: 50px">
                     <a href="{{ route('auth.signup.form') }}" class="signup-image-link" style="position: relative; left: 50px">Create an account</a>
                     <div class="links">
-                        <p>Forgot Password? <a href="{{ route('auth.password.reset.choice.form') }}">Reset Password</a></p>
+                        <p>Forgot Password? <a href="{{ route('password.request') }}">Reset Password</a></p>
     </div>
 
                 </div>

@@ -19,7 +19,7 @@
 
         .container {
             background-color: white;
-            padding: 30px;
+            padding: 30px;  
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             max-width: 400px;
@@ -93,12 +93,12 @@
         @endif
 
         <!-- نموذج إعادة تعيين كلمة المرور -->
-        <form >
-
+        <form action="{{ route('password.update') }}" method="POST">
             @csrf
+            <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="form-group">
-                <input type="text" name="verification_code" placeholder="Verification Code">
+                <input type="text" name="email" placeholder="email">
             </div>
 
             <div class="form-group">
