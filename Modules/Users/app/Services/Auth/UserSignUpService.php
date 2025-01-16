@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Modules\Users\Http\Requests\createUserRequest;
 use Modules\Users\Http\Requests\SignUpRequest;
 use Modules\Users\Repositories\Auth\UserRepository;
 use Modules\Users\Repositories\Auth\UserSignUpRepository;
@@ -39,4 +40,14 @@ class UserSignUpService implements AuthIUserSignUpService
         
     }
    
+
+    public function addUser(createUserRequest $request)
+    {
+     
+
+        $user = $this->userRepository->addNewUser($request);
+       
+        return $user;
+        
+    }
 }

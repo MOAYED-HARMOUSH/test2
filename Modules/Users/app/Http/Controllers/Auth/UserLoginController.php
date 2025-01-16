@@ -3,10 +3,13 @@
 namespace Modules\Users\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Users\Http\Requests\LoginRequest;
 use Modules\Users\Services\Auth\IUserLoginService as AuthIUserLoginService;
 use Modules\Users\Services\Interfaces\IUserLoginService;
+use Illuminate\Support\Str;
 
 class UserLoginController extends Controller
 {
@@ -22,11 +25,46 @@ class UserLoginController extends Controller
 
      public function showLoginForm()
      {
-        return view('users::Auth.login');
+        return view('users::auth.login'); //toDo  return redirect ...
     }
 
     public function login(LoginRequest $request) 
     {
+        //return view('users::auth.login'); //toDo  return redirect ...
+        
+        //
+        {
+            $credentials = $request->only('email', 'password');
+            $remember = $request->has('remember');
+    
+            if (Auth::attempt($credentials, $remember)) {
+                // Generate Refresh Token
+                $refreshToken = Str::random(64);
+                $expiresAt = now()->addDays(30); // Ensure '30' is an integer
+    
+                // Store the Refresh Token in the Database
+                DB::table('refresh_tokens')->insert([
+                    'user_id' => Auth::id(),
+                    'refresh_token' => $refreshToken,
+                    'expires_at' => $expiresAt,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+    
+                // Store the Refresh Token in a Secure HTTP-Only Cookie
+                cookie()->queue('refresh_token', $refreshToken, 60 * 24 * 30, '/', null, true, true);
+    
+                // Set Session Expiry based on 'session.lifetime' setting
+                session()->put('expires_at', now()->addMinutes((int) config('session.lifetime')));
+    
+                return redirect()->intended('auth/dashboard');
+            }
+            session()->flash('error', 'error');
+
+            return redirect()->back()->with(['error' => 'An Issue is incorrect.']);
+        }
+
+        //
         try{
         $user =$this->userService->login($request);
         if ($user) {
@@ -36,6 +74,10 @@ class UserLoginController extends Controller
 
             }
 
+            //
+
+            
+            //
             $request->session()->put('user', $user);
             session()->flash('success', 'login successful! Welcome to the site.');
 

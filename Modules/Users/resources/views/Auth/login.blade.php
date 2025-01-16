@@ -1,171 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign In Page</title>
+ <title>Sign In Page</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            display: flex;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-width: 800px;
-        }
-
-        .signin-content {
-            display: flex;
-            width: 100%;
-        }
-
-        .signin-content img {
-            width: 50%;
-            object-fit: cover;
-        }
-
-        .signin-form {
-            width: 50%;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .form-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: inline-block;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-        .form-group .text-danger {
-            color: red;
-            font-size: 12px;
-        }
-
-        .form-button {
-            margin-top: 20px;
-        }
-
-        .form-button input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .form-button input:hover {
-            background-color: #0056b3;
-        }
-
-        .signup-image-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .signup-image-link:hover {
-            text-decoration: underline;
-        }
-
         .alert-danger {
             color: #721c24;
             background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 15px;
+            border-color: #f5c6cb;
+           position: relative;
+            bottom: 20px;
+           padding: 1px;
+            border-radius: 50px;
+        }
+        .text-danger{
+            color: red;
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
-</head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUa1zuw3y1hVR0sA0F2iEc9LrBvBuQf0GIO6As6MAh5zo4v5zvg6uRRR1iBh" crossorigin="anonymous">
 
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{{asset('fonts/material-icon/css/material-design-iconic-font.min.css')}}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{asset('css/auth.css')}}">
+
+
+</head>
 <body>
 
-    <div class="container">
-        <div class="signin-content">
-            <img src="{{ asset('/images/authImages/sign-in.jpg') }}" alt="Sign in image">
-            <div class="signin-form">
-                <h2 class="form-title">Sign In</h2>
+<div class="main">
 
-                <!-- General Error Alert -->
-                @if (session('error'))
-                    <div class="alert-danger">
-                        <ul>
-                            <li>{{ session('error') }}</li>
-                        </ul>
-                    </div>
-                @endif
 
-                <form method="POST" action="{{ route('auth.login.submit') }}" id="login-form">
-                    @csrf
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" name="email" id="email" value="{{ old('email') }}"
-                            placeholder="Enter Your Email">
-                        @error('email')
+    <!-- Sing in  Form -->
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div >
+                    <img src="{{asset('/images/authImages/sign-in.jpg')}}" alt="sing up image" style="height: 400px ; width: 800px ;position: relative ; left: 50px">
+                    <a href="{{ route('auth.signup.form') }}" class="signup-image-link" style="position: relative; left: 50px">Create an account</a>
+                    <div class="links">
+                        <p>Forgot Password? <a href="{{ route('auth.password.reset.choice.form') }}">Reset Password</a></p>
+    </div>
+
+                </div>
+                
+                <div class="signin-form">
+
+                    <h2 class="form-title" style="position: relative ; left: 60px">Sign In</h2>
+                    <!-- General Error Alert -->
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li>{{ session('error') }}</li>
+                            </ul>
+                        </div>
+                    @endif
+                                        <form method="POST" action="{{ route('auth.login.submit') }}" id="login-form">
+                                            @csrf
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="email" id="email"
+                                   value="{{ old('email') }}"
+                                   placeholder="Enter Your email or phone"/>
+@error('email')
                             <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" placeholder="Enter Your Password">
-                        @error('password')
+@enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="password" id="password" placeholder="Enter your password"/>
+                            @error('password')
                             <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="form-button">
-                        <input type="submit" name="signin" id="signin" value="Log in">
-                    </div>
-                </form>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="remember" id="remember-me" class="agree-term" />
+                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit"
+                                   style="position: relative; left: 75px"
+                                   value="Log in"/>
+                        </div>
+                    </form>
+                </div>
 
             </div>
         </div>
-    </div>
+    </section>
+
+</div>
+
+
+<!-- JS -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="{{asset('js/layouts.js')}}"></script>
+
 
 </body>
-
 </html>

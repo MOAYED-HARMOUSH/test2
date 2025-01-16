@@ -8,6 +8,7 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
+'D:/Abjad/Abjad/Modules/Users/resources/views/layouts/master.blade.php'
     ],
     theme: {
         extend: {

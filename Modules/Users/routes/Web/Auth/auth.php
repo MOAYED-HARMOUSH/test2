@@ -17,7 +17,23 @@ use Modules\Users\Http\Controllers\Auth\UserSignUpController;
 
 
 Route::get('/signup', [UserSignUpController::class, 'showSignupForm'])->name('signup.form');
+Route::get('/forgotPassword', [UserSignUpController::class, 'forgotPassword'])->name('forgotPassword');
+
+
 Route::post('/signup', [UserSignUpController::class, 'signup'])->name('signup.submit');
 
 Route::get('/login', [UserLoginController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [UserLoginController::class, 'login'])->name('login.submit');
+
+
+Route::get('/dashboard', [UserSignUpController::class, 'dashboard'])->name('dashboard');
+Route::post('/add', [UserSignUpController::class, 'adduser'])->name('users.add');
+
+
+// routes/web.php
+Route::get('/forget-password', [UserSignUpController::class, 'showForgetPasswordChoice'])->name('password.reset.choice.form');
+Route::post('/forget-password', [UserSignUpController::class, 'handleForgetPasswordChoice'])->name('password.reset.choice');
+Route::get('/reset-password', [UserSignUpController::class, 'showResetPasswordForm'])->name('password.reset.form');
+//Route::get('/reset-password/{token}', [UserSignUpController::class, 'showResetPasswordForm'])->name('password.reset.form');
+
+Route::post('/reset-password', [UserSignUpController::class, 'updatePassword'])->name('password.update');
