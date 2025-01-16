@@ -10,14 +10,20 @@ use Modules\Users\Http\Requests\LoginRequest;
 use Modules\Users\Services\Auth\IUserLoginService as AuthIUserLoginService;
 use Modules\Users\Services\Interfaces\IUserLoginService;
 use Illuminate\Support\Str;
+use Modules\Users\Http\Controllers\Crud\UserCrudController;
+use Modules\Users\Services\Auth\UserSignUpService;
 
 class UserLoginController extends Controller
 {
     public AuthIUserLoginService $userService;
+    public UserSignUpService $userSignUp;
 
-    public function __construct(AuthIUserLoginService $userService)
+
+    public function __construct(AuthIUserLoginService $userService,UserSignUpService $userSignUp)
     {
         $this->userService = $userService;
+        $this->userSignUp = $userSignUp;
+
     }
     /**
      * Display a listing of the resource.
@@ -65,8 +71,12 @@ class UserLoginController extends Controller
     
                 // Set Session Expiry based on 'session.lifetime' setting
                 session()->put('expires_at', now()->addMinutes((int) config('session.lifetime')));
-    
-                return redirect()->intended('auth/dashboard');
+
+
+                $users = $this->userSignUp->showUers();
+             //  session()->put('users', $users);
+
+               return redirect()->intended('auth/dashboard');
             }
             session()->flash('error', 'error');
 

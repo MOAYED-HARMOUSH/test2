@@ -3,10 +3,12 @@
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UsersControlle;
 use Illuminate\Support\Facades\Route;
+use Modules\Users\Http\Controllers\Auth\UserCrudController;
 use Modules\Users\Http\Controllers\Auth\UserLoginController;
 use Modules\Users\Http\Controllers\Auth\UserSignUpController;
 use Modules\Users\Http\Controllers\Auth\UsersSignUpController;
 use Modules\Users\Http\Controllers\BaseController;
+use Modules\Users\Http\Controllers\Crud\UserCrudController as CrudUserCrudController;
 
 /*
  *--------------------------------------------------------------------------
@@ -22,3 +24,4 @@ use Modules\Users\Http\Controllers\BaseController;
 Route::post('/register',[UserSignUpController::class,'signUp'])->name('user.signUp');
  
 Route::post('/login',[UserLoginController::class,'login'])->name('user.login');
+Route::get('/showUers', [CrudUserCrudController::class, 'showUers'])->name('showUers');

@@ -3,6 +3,7 @@
 namespace Modules\Users\Repositories\Auth;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Modules\Users\Http\Requests\createUserRequest;
@@ -39,5 +40,15 @@ return $user;
                 throw new \Exception('The email has already been taken.');
             }
             throw new \Exception('An error occurred while creating the user.');
+        }  }
+
+
+        public function showUers()
+    {
+        try {
+            return User::select('firstName', 'lastName', 'email', 'role')->get();
+        } catch (Exception $e) {
+          
+            throw new \Exception('An error occurred while FEATCHING USERS');
         }  }
 }

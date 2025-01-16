@@ -50,4 +50,15 @@ class UserSignUpService implements AuthIUserSignUpService
         return $user;
         
     }
+
+
+    public function showUers()
+    {
+     
+
+        $users = $this->userRepository->showUers();
+       
+        return $users;
+        
+    }
 }

@@ -19,7 +19,7 @@
             </a>
             <div class="collapse" id="usersMenu">
                 <ul class="list-unstyled ps-4 submenu">
-                    <li><a class="nav-link text-dark" href="#">All users</a></li>
+                    <li><a class="nav-link text-dark" href="{{ route('auth.AllUsers') }}">All users</a></li>
                     <li><a class="nav-link text-dark" href="#">User roles</a></li>
                     <li><a class="nav-link text-dark" href="#">User groups</a></li>
                     <li><a class="nav-link text-dark" href="#">Multiple seats</a></li>

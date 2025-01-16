@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Users\Http\Controllers\Auth;
+namespace Modules\Users\Http\Controllers\Crud;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -23,68 +23,52 @@ class UserCrudController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function dashboard()
+{
+    $users = $this->userService->showUers();
 
-     public function showSignupForm()
-     {
-        return view('users::Auth.signup');
-    }
-    public function addUser(createUserRequest $request)
-    {
+
+    return view('users::dashboard.dashboard', compact('users'));
+
+
+}
+
+public function AllUsers()
+{
+    $users = $this->userService->showUers();
+
+
+    return view('users::users.all_users', compact('users'));
+
+
+}
+    public function showUers()
+    {   
         try {
-            $user = $this->userService->addUser($request);
-
-            if ($user) {
+            // جلب البيانات باستخدام الخدمة
+            $users = $this->userService->showUers();
+    
+            if ($users->isNotEmpty()) {
                 // رسالة النجاح
-          session()->flash('success', 'User added successfully.');
-          return view('users::dashboard.dashboard'); // اسم ملف العرض
-          //     return redirect()->route('users::dashboard.dashboard');
-        }
-
+                session()->flash('success', 'Users fetched successfully.');
+    
+                // تمرير البيانات إلى العرض
+                return redirect()->route('users::auth.dashboard');
+            } else {
+                // إذا كانت البيانات فارغة
+                session()->flash('info', 'No users found.');
+                return redirect()->route('users::auth.dashboard');
+            }
         } catch (\Exception $e) {
+            // تسجيل الخطأ إن لزم
+        //\Log::error('Error fetching users: ' . $e->getMessage());
+    
             // رسالة الخطأ
-           
-            session()->flash('error', 'an error here');
-          return view('users::dashboard.dashboard'); // اسم ملف العرض
+            session()->flash('error', 'An error occurred while fetching users.');
+            return redirect()->route('users::auth.dashboard');
         }
     }
     
+    
     //
-
-    public function dashboard()
-    {
-        return view('users::dashboard.dashboard'); // اسم ملف العرض
-
-   }
-
-    public function signUp(signUpRequest $request)
-    {
-        try {
-        $user =$this->userService->signUp($request);
-        
-        if ($user) {
-
-            if ($request->expectsJson()) {
-                return $this->successResponse($user,201,'created succesfully');
-
-            }
-
-            $request->session()->put('user', $user);
-            session()->flash('success', 'Registration successful! Welcome to the site.');
-
-            return view('users::layouts.master'); //toDo  return redirect ...
-        }
-    }
-
-catch (\Exception $e) {
-    $errorMessage = $e->getMessage();
-
-    if ($request->expectsJson()) {
-        return $this->errorResponse([], 400, $errorMessage);
-    }
-
-    session()->flash('error', $errorMessage);
-    return redirect()->back()->withInput();
-}
-     
-}
 }

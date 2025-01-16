@@ -38,26 +38,21 @@ class UserSignUpController extends Controller
             if ($user) {
                 // رسالة النجاح
           session()->flash('success', 'User added successfully.');
-          return view('users::dashboard.dashboard'); // اسم ملف العرض
-          //     return redirect()->route('users::dashboard.dashboard');
-        }
+
+          $users = $this->userService->showUers();
+          return redirect()->intended('auth/AllUsers');
+   
+    }
 
         } catch (\Exception $e) {
             // رسالة الخطأ
            
             session()->flash('error', 'an error here');
-          return view('users::dashboard.dashboard'); // اسم ملف العرض
+            return redirect()->route('users::auth.AllUsers',compact('users'));
         }
     }
     
-    //
-
-    public function dashboard()
-    {
-        return view('users::dashboard.dashboard'); // اسم ملف العرض
-
-   }
-
+  
     public function signUp(signUpRequest $request)
     {
         try {
@@ -72,7 +67,7 @@ class UserSignUpController extends Controller
             $request->session()->put('user', $user);
             session()->flash('success', 'Registration successful! Welcome to the site.');
 
-            return view('users::layouts.master'); //toDo  return redirect ...
+            return redirect()->intended('auth/dashboard');
         }
     }
 

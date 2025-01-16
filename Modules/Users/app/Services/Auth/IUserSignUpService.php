@@ -9,6 +9,7 @@ use Modules\Users\Http\Requests\signUpRequest;
 interface IUserSignUpService{
     public function signUp(signUpRequest $user);    
     public function addUser(createUserRequest $user);    
+    public function showUers();    
 
 
 }

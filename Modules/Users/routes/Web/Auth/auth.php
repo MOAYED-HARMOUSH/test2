@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Users\Http\Controllers\Auth\UserCrudController;
 use Modules\Users\Http\Controllers\Auth\UserLoginController;
 use Modules\Users\Http\Controllers\Auth\UserSignUpController;
+use Modules\Users\Http\Controllers\Crud\UserCrudController as CrudUserCrudController;
 use Modules\Users\Http\Controllers\ForgotPasswordController;
 use Modules\Users\Http\Controllers\ResetPasswordController;
 
@@ -28,9 +30,13 @@ Route::get('/login', [UserLoginController::class, 'showLoginForm'])->name('login
 Route::post('/login', [UserLoginController::class, 'login'])->name('login.submit');
 
 
-Route::get('/dashboard', [UserSignUpController::class, 'dashboard'])->name('dashboard');
 Route::post('/add', [UserSignUpController::class, 'adduser'])->name('users.add');
 
+Route::get('/showUers', [CrudUserCrudController::class, 'showUers'])->name('showUers');
+
+Route::get('/dashboard', [CrudUserCrudController::class, 'dashboard'])->name('dashboard');
+
+Route::get('/AllUsers', [CrudUserCrudController::class, 'AllUsers'])->name('AllUsers');
 
 // routes/web.php
 // Route::get('/forget-password', [UserSignUpController::class, 'showForgetPasswordChoice'])->name('password.reset.choice.form');
