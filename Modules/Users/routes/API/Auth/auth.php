@@ -24,4 +24,4 @@ use Modules\Users\Http\Controllers\Crud\UserCrudController as CrudUserCrudContro
 Route::post('/register',[UserSignUpController::class,'signUp'])->name('user.signUp');
  
 Route::post('/login',[UserLoginController::class,'login'])->name('user.login');
-Route::get('/showUers', [CrudUserCrudController::class, 'showUers'])->name('showUers');
+Route::get('/showUers', [CrudUserCrudController::class, 'showUers'])->name('showUers')->middleware('permission:manage users');

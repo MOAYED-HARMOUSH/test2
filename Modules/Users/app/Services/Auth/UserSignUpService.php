@@ -27,6 +27,7 @@ class UserSignUpService implements AuthIUserSignUpService
     public function signUp(SignUpRequest $request)
     {
         $user = $this->userRepository->signUp($request);
+        $user->assignRole('Super Admin');
         if($request->expectsJson())
         {
             $token = $user->createToken('my-app-token')->plainTextToken;

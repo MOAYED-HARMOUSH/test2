@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RolesAndPermissionsController;
 use Illuminate\Support\Facades\Route;
 use Modules\Users\Http\Controllers\Auth\UsersController;
 
@@ -17,3 +18,6 @@ use Modules\Users\Http\Controllers\Auth\UsersController;
 // Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 //     Route::apiResource('users', UsersController::class)->names('users');
 // });
+
+Route::get('/setup_roles_permissions', [RolesAndPermissionsController::class, 'setupRolesAndPermissions'])
+    ->name('setup.roles.permissions');
