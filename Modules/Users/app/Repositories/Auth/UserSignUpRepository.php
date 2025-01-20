@@ -20,12 +20,10 @@ class UserSignUpRepository extends BaseRepository
     public function signUp(SignUpRequest $data)
     {
         try {
-            Log::info($data);
             $user= User::create($data->validated());
-            Log::info($user);
-return $user;
+            return $user;
         } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() === '23000') { // رمز الخطأ لتكرار القيم الفريدة
+            if ($e->getCode() === '23000') { 
                 throw new \Exception('The Email has already been taken.');
             }
             throw new \Exception('An error occurred while creating the user.');
@@ -36,7 +34,7 @@ return $user;
         try {
             return User::create($data->validated());
         } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() === '23000') { // رمز الخطأ لتكرار القيم الفريدة
+            if ($e->getCode() === '23000') { 
                 throw new \Exception('The email has already been taken.');
             }
             throw new \Exception('An error occurred while creating the user.');

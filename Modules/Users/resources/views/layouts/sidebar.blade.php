@@ -35,14 +35,24 @@
             <a class="nav-link text-dark" href="#"><i class="fas fa-chart-bar me-2"></i> Reports</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" href="#"><i class="fas fa-cog me-2"></i> Settings</a>
+            <!-- تعديل قائمة الإعدادات -->
+            <a class="nav-link text-dark d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                href="#settingsMenu" role="button" aria-expanded="false" aria-controls="settingsMenu">
+                <span><i class="fas fa-cog me-2"></i> Settings</span>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+            <div class="collapse" id="settingsMenu">
+                <ul class="list-unstyled ps-4 submenu">
+                    <li><a class="nav-link text-dark" href="{{ route('index') }}">Countries</a></li>
+                    <li><a class="nav-link text-dark" href="#">Auth</a></li>
+                </ul>
+            </div>
         </li>
     </ul>
-    <div id="footer">
-        <div class="mt-4 bottom-links">
+    <div id="footer" >
+        <div class="mt-4 bottom-links" >
             <a class="nav-link text-dark" href="#"><i class="fas fa-search me-2"></i> Search</a>
             <a class="nav-link text-dark" href="#"><i class="fas fa-user me-2"></i> My Account</a>
         </div>
     </div>
-
 </div>
