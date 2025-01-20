@@ -16,6 +16,8 @@
         </div>
     @endif
 
+    
+
     <!-- العنوان -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px;">
         <h1 style="font-size: 28px; color: #333; margin: 0;">{{ __('Countries Settings') }}</h1>
@@ -27,6 +29,22 @@
             {{ __('Add New') }}
         </button>
     </div>
+
+  <!-- خانة البحث -->
+  <div style="margin-bottom: 20px; display: flex; justify-content: flex-start;">
+    <form method="GET" action="{{ route('settings.countries.index') }}" style="width: 100%; max-width: 400px;">
+        <div class="input-group">
+            <input 
+                type="text" 
+                name="search" 
+                value="{{ request()->get('search') }}" 
+                class="form-control" 
+                placeholder="{{ __('Search by country name or dialing code') }}" 
+                style="border-radius: 5px 0 0 5px; border: 1px solid #ced4da;">
+            <button class="btn btn-outline-secondary" type="submit" style="border-radius: 0 5px 5px 0;">{{ __('Search') }}</button>
+        </div>
+    </form>
+</div>
 
     <!-- جدول الدول -->
     <div style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">

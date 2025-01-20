@@ -1,9 +1,11 @@
 <?php
 namespace Modules\Settings\Services\Country;
 
+use Illuminate\Http\Request;
 use Modules\Settings\Models\Country;
 use Illuminate\Support\Facades\DB;
 use Modules\Settings\Http\Requests\CreateCountryRequest;
+use Modules\Settings\Http\Requests\UpdateCountryRequest;
 
 class CountryService implements ICountryService {
     public function addCountry(CreateCountryRequest $request) {
@@ -16,7 +18,7 @@ class CountryService implements ICountryService {
         ]);
     }
 
-    public function updateCountry(int $id, array $data) {
+    public function updateCountry(int $id, Request $data) {
         $country = Country::findOrFail($id);
         $country->update([
             'name' => [
