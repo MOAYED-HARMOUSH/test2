@@ -37,7 +37,9 @@ class CountryService implements ICountryService {
     public function getCountries(array $criteria) {
         return Country::when($criteria['search'] ?? null, function ($query, $search) {
             $query->where('name->en', 'like', "%$search%")
-                ->orWhere('name->ar', 'like', "%$search%");
+                ->orWhere('name->ar', 'like', "%$search%")
+                ->orWhere('dialing_code', 'like', "%$search%")
+                ;
         })->get();
     }
 }
