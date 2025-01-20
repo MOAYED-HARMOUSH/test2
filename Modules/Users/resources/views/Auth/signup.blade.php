@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Optional for styling -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -41,16 +41,10 @@
             font-size: 16px;
         }
 
-        .alert ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
         .alert-success {
             background-color: #e3f2fd;
-    border-color: #b3e5fc;
-    color: #004d40;
+            border-color: #b3e5fc;
+            color: #004d40;
         }
 
         .alert-danger {
@@ -108,34 +102,37 @@
             background-color: #1e88e5;
         }
 
-        .name-group {
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .phone-container {
             display: flex;
-            gap: 10px;
+            align-items: center;
         }
 
-        .name-group .form-group {
-            flex: 1;
+        .phone-container input {
+            width: 80%;
         }
 
-        .links {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .links a {
-            color: #2196F3;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
+        .dialing-code {
+            width: 20%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Sign Up</h1>
+        
         @if (session('error'))
             <div class="alert alert-danger">
                 <ul>
@@ -181,17 +178,29 @@
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" value="{{ old('email') }}" required>
             </div>
+
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
+
+            <!-- Country Dropdown -->
             <div class="form-group">
                 <label for="country">Country:</label>
-                <input type="text" id="country" name="country" required>
+                <select id="country" name="country" required>
+                    @foreach ($countries as $country)
+                        <option value="{{ $country->id }}" data-dialing-code="{{ $country->dialing_code }}">
+                            {{ $country->name[app()->getLocale()] }} ({{ $country->dialing_code }})
+                        </option>
+                    @endforeach
+                </select>
             </div>
-            <div class="form-group">
-                <label for="phone">Phone:</label>
-                <input type="phone" id="phone" name="phone" required>
+
+            <!-- Phone input with dialing code -->
+            <div class="form-group phone-container">
+                <input type="text" id="dialing-code" class="dialing-code" disabled>
+
+                <input type="text" id="phone" name="phone" required placeholder="Phone number">
             </div>
 
             <button type="submit">Sign Up</button>
@@ -201,5 +210,22 @@
             </div>
         </form>
     </div>
+
+    <script>
+        const countrySelect = document.getElementById('country');
+        const phoneInput = document.getElementById('phone');
+        const dialingCodeInput = document.getElementById('dialing-code');
+
+        // JavaScript to handle displaying the dialing code when a country is selected
+        countrySelect.addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const dialingCode = selectedOption.getAttribute('data-dialing-code');
+            dialingCodeInput.value = dialingCode; // Set the dialing code input
+            phoneInput.value = ''; // Clear the phone input when the country changes
+        });
+
+        // Trigger change event on page load to set the initial dialing code
+        countrySelect.dispatchEvent(new Event('change'));
+    </script>
 </body>
 </html>

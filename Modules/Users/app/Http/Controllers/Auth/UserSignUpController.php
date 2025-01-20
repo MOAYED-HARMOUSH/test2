@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
+use Modules\Settings\Services\Country\CountryService;
 use Modules\Users\Http\Requests\createUserRequest;
 use Modules\Users\Http\Requests\signUpRequest;
 use Modules\Users\Services\Auth\IUserSignUpService as AuthIUserSignUpService;
@@ -17,18 +18,25 @@ use Modules\Users\Services\IUserSignUpService;
 class UserSignUpController extends Controller
 {
     public AuthIUserSignUpService $userService;
+    protected CountryService $countryService;
 
-    public function __construct(AuthIUserSignUpService $userService)
+    public function __construct(AuthIUserSignUpService $userService,CountryService $countryService)
     {
         $this->userService = $userService;
+        $this->countryService = $countryService;
+
     }
     /**
      * Display a listing of the resource.
      */
 
-     public function showSignupForm()
+     public function showSignupForm(Request $request)
      {
-        return view('users::Auth.signup');
+        $countries = $this->countryService->getCountries($request->all());
+        if ($request->expectsJson()) {
+            return $this->successResponse($countries);
+        }
+        return view('users::Auth.signup', compact('countries'));
     }
     public function addUser(createUserRequest $request)
     {
