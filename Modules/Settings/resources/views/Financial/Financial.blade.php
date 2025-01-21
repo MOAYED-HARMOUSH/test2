@@ -24,9 +24,7 @@
                     <label class="form-label">{{ __('Default Currency') }}</label>
                     <select name="default_currency" class="form-select">
                         @foreach(['USD', 'EUR', 'IQD'] as $code)
-                        <option value="{{ $code }}" {{ $code == $currency->default_currency ? 'selected' : '' }}>
-                            {{ $code }}
-                        </option>
+                        <option value="{{ $code }}" {{ $code == $currency->default_currency ? 'selected' : '' }}>{{ $code }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -52,34 +50,34 @@
         </div>
     </form>
 
-       <!-- Tax Settings -->
-<form method="POST" action="{{ route('settings.tax.save') }}" class="card mb-4">
-    @csrf
-    <div class="card-body">
-        <h5 class="card-title text-primary mb-3">{{ __('Tax Settings') }}</h5>
+    <!-- Tax Settings -->
+    <form method="POST" action="{{ route('settings.tax.save') }}" class="card mb-4">
+        @csrf
+        <div class="card-body">
+            <h5 class="card-title text-primary mb-3">{{ __('Tax Settings') }}</h5>
 
-        <div class="row g-3">
-            @foreach($countries as $country)
-                <div class="col-md-6">
-                    <label class="form-label">{{ $country->name['en'] }} ({{ __('Tax Rate (%)') }})</label>
-                    <input type="number" 
-                           name="tax_rates[{{ $country->id }}]" 
-                           value="{{ old('tax_rates.' . $country->id, $country->taxSetting->default_rate ?? 0) }}" 
-                           class="form-control"
-                           min="0" 
-                           step="0.01">
-                </div>
-            @endforeach
-        </div>
+            <div class="row g-3">
+                @foreach($countries as $country)
+                    <div class="col-md-6">
+                        <label class="form-label">{{ $country->name['en'] }} ({{ __('Tax Rate (%)') }})</label>
+                        <input type="number" 
+                               name="tax_rates[{{ $country->id }}]" 
+                               value="{{ old('tax_rates.' . $country->id, $country->taxSetting->default_rate ?? 0) }}" 
+                               class="form-control"
+                               min="0" 
+                               step="0.01">
+                    </div>
+                @endforeach
+            </div>
 
-        <div class="mt-4">
-            <button type="submit" class="btn btn-primary">
-                {{ __('Save Changes') }}
-            </button>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    {{ __('Save Changes') }}
+                </button>
+            </div>
         </div>
-    </div>
-</form>
-    
+    </form>
+
     <!-- Payment Gateway -->
     <form method="POST" action="{{ route('settings.gateway.save') }}" class="card mb-4">
         @csrf
@@ -153,24 +151,60 @@
         </div>
     </form>
 
-    <!-- Policies -->
     <form method="POST" action="{{ route('settings.policy.save') }}" class="card mb-4">
         @csrf
         <div class="card-body">
             <h5 class="card-title text-primary mb-3">{{ __('Policies') }}</h5>
-            
+    
+            <!-- سياسة الدفع -->
             <div class="row g-3">
-                <div class="col-12">
-                    <label class="form-label">{{ __('Payment Policy') }}</label>
-                    <textarea name="payment_policy" class="form-control" rows="5">{{ old('payment_policy', $policies->payment_policy) }}</textarea>
-                </div>
+                <!-- سياسة الدفع -->
+<div class="col-12">
+    <label class="form-label">{{ __('Payment Policy') }}</label>
+    <div class="policy" id="payment_policy_display">
+        @if($policies && $policies->payment_policy)
+            {!! $policies->payment_policy !!}
+        @else
+            <p>{{ __('No data available. Please add payment policy.') }}</p>
+        @endif
+    </div>
+    
+    <!-- تعديل الشروط هنا -->
+    <textarea name="payment_policy" class="form-control" rows="5" id="payment_policy_input" style="display:none;">
+        {!! old('payment_policy', $policies->payment_policy ?? '') !!}
+    </textarea>
+    
+    @if($policies && $policies->payment_policy)
+        <button type="button" class="btn btn-warning mt-2" id="edit_payment_policy">
+            {{ __('Edit') }}
+        </button>
+    @endif
+</div>
                 
-                <div class="col-12">
-                    <label class="form-label">{{ __('Refund Policy') }}</label>
-                    <textarea name="refund_policy" class="form-control" rows="5">{{ old('refund_policy', $policies->refund_policy) }}</textarea>
-                </div>
+                <!-- سياسة الاسترداد -->
+<div class="col-12">
+    <label class="form-label">{{ __('Refund Policy') }}</label>
+    <div class="policy" id="refund_policy_display">
+        @if($policies && $policies->refund_policy)
+            {!! $policies->refund_policy !!}
+        @else
+            <p>{{ __('No data available. Please add refund policy.') }}</p>
+        @endif
+    </div>
+    
+    <!-- تعديل الشروط هنا -->
+    <textarea name="refund_policy" class="form-control" rows="5" id="refund_policy_input" style="display:none;">
+        {!! old('refund_policy', $policies->refund_policy ?? '') !!}
+    </textarea>
+    
+    @if($policies && $policies->refund_policy)
+        <button type="button" class="btn btn-warning mt-2" id="edit_refund_policy">
+            {{ __('Edit') }}
+        </button>
+    @endif
+</div>
             </div>
-            
+    
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary">
                     {{ __('Save Changes') }}
@@ -178,5 +212,44 @@
             </div>
         </div>
     </form>
+    
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // إظهار/إخفاء الحقول حسب الحالة الأولية
+        togglePolicyFields('payment');
+        togglePolicyFields('refund');
+    
+        // أحداث النقر على أزرار التعديل
+        document.getElementById('edit_payment_policy')?.addEventListener('click', () => togglePolicyEdit('payment'));
+        document.getElementById('edit_refund_policy')?.addEventListener('click', () => togglePolicyEdit('refund'));
+    
+        function togglePolicyFields(type) {
+            const displayDiv = document.getElementById(`${type}_policy_display`);
+            const inputField = document.getElementById(`${type}_policy_input`);
+            const editButton = document.getElementById(`edit_${type}_policy`);
+    
+            if (inputField.value.trim()) {
+                displayDiv.style.display = 'block';
+                inputField.style.display = 'none';
+                if (editButton) editButton.style.display = 'inline-block';
+            } else {
+                displayDiv.style.display = 'none';
+                inputField.style.display = 'block';
+                if (editButton) editButton.style.display = 'none';
+            }
+        }
+    
+        function togglePolicyEdit(type) {
+            const displayDiv = document.getElementById(`${type}_policy_display`);
+            const inputField = document.getElementById(`${type}_policy_input`);
+            const editButton = document.getElementById(`edit_${type}_policy`);
+    
+            displayDiv.style.display = 'none';
+            inputField.style.display = 'block';
+            if (editButton) editButton.style.display = 'none';
+        }
+    });
+    </script>
 @endsection

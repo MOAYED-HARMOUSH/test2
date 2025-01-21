@@ -15,8 +15,14 @@ use Modules\Settings\Models\{
     Country
 };
 
+use HTMLPurifier;
+use HTMLPurifier_Config;
+
+
 class FinancialController extends Controller
 {
+ 
+
     public function showFinancialSettings()
 {
     return view('settings::Financial.Financial', [
@@ -24,7 +30,7 @@ class FinancialController extends Controller
         'tax' => TaxSettings::firstOrNew(['id' => 1]),
         'gateway' => GatewaySettings::firstOrNew(['id' => 1]),
         'invoice' => InvoiceSettings::firstOrNew(['id' => 1]),
-        'policies' => PolicySettings::firstOrNew(['id' => 1]),
+        'policies' => PolicySettings::first(),
         'countries' => Country::with('taxSetting')->get()
 
     ]);
@@ -112,14 +118,35 @@ class FinancialController extends Controller
         return Redirect::route('settings.financial')->with('success', __('Invoice settings updated'));
     }
 
-    public function savePolicySettings(Request $request)
-    {
-        $validated = $request->validate([
-            'payment_policy' => 'required|string',
-            'refund_policy' => 'required|string'
-        ]);
+ 
+public function savePolicySettings(Request $request)
+{
+    // التحقق من المدخلات الأساسية
+    $validated = $request->validate([
+        'payment_policy' => 'required|string',
+        'refund_policy' => 'required|string'
+    ]);
 
-        PolicySettings::updateOrCreate(['id' => 1], $validated);
-        return Redirect::route('settings.financial')->with('success', __('Policies updated'));
+    // إعداد HTMLPurifier لتصفية المدخلات
+    $config = HTMLPurifier_Config::createDefault();
+    $purifier = new HTMLPurifier($config);
+
+    // تصفية المدخلات من أي أكواد ضارة
+    $validated['payment_policy'] = $purifier->purify($validated['payment_policy']);
+    $validated['refund_policy'] = $purifier->purify($validated['refund_policy']);
+
+    $policy =PolicySettings::first();
+
+
+    // إذا كان السجل موجودًا، قم بتحديثه
+    if ($policy) {
+        $policy->update($validated);
+    } else {
+        // إذا لم يكن السجل موجودًا، قم بإنشاء سجل جديد
+        PolicySettings::create($validated);
     }
+    // إعادة التوجيه مع رسالة النجاح
+    return Redirect::route('settings.financial')->with('success', __('Policies updated successfully.'));
+}
+
 }
