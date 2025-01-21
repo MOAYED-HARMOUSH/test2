@@ -1,12 +1,20 @@
 <?php
 namespace Modules\Settings\Services\Financial;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Modules\Settings\Http\Requests\CreateCountryRequest;
-use Modules\Settings\Http\Requests\UpdateCountryRequest;
+use Modules\Settings\Http\Requests\CreateCurrencySettingsRequest;
+use Modules\Settings\Http\Requests\CreateTaxSettingsRequest;
+use Modules\Settings\Http\Requests\CreateGatewaySettingsRequest;
+use Modules\Settings\Http\Requests\CreateInvoiceSettingsRequest;
+use Modules\Settings\Http\Requests\CreatePolicySettingsRequest;
 
-interface IFinancialService{
- 
+interface IFinancialService {
+    public function saveCurrencySettings(CreateCurrencySettingsRequest $request);
 
+    public function saveTaxSettings(CreateTaxSettingsRequest $request);
+
+    public function saveGatewaySettings(CreateGatewaySettingsRequest $request);
+
+    public function saveInvoiceSettings(CreateInvoiceSettingsRequest $request);
+
+    public function savePolicySettings(CreatePolicySettingsRequest $request);
 }

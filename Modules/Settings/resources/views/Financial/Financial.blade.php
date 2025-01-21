@@ -139,7 +139,7 @@
                 
                 <div class="col-12">
                     <label class="form-label">{{ __('Invoice Template') }}</label>
-                    <input type="file" name="invoice_template" class="form-control">
+                    <input type="file" name="invoice_template" class="form-control">{{ old('logo_path', $invoice->logo_path) }}
                 </div>
             </div>
             
