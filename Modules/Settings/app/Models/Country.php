@@ -16,8 +16,8 @@ class Country extends Model
     protected $fillable = ['name', 'dialing_code', 'user_count'];
     protected $casts = ['name' => 'array'];
 
-    // protected static function newFactory(): CountryFactory
-    // {
-    //     // return CountryFactory::new();
-    // }
+    public function taxSetting()
+    {
+        return $this->hasOne(TaxSettings::class, 'countryId');
+    }
 }

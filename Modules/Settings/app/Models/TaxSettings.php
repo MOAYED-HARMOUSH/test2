@@ -14,14 +14,14 @@ class TaxSettings extends Model
      * The attributes that are mass assignable.
      */
     protected $table = 'tax_settings';
-    protected $fillable = ['default_rate'];
+    protected $fillable = ['default_rate','countryId'];
 
     public function countries()
     {
         return $this->belongsToMany(Country::class, 'tax_setting_country', 'tax_setting_id', 'country_code');
     }
-    // protected static function newFactory(): TaxSettingsFactory
-    // {
-    //     // return TaxSettingsFactory::new();
-    // }
+     public function country()
+    {
+        return $this->belongsTo(Country::class, 'countryId');
+    }
 }

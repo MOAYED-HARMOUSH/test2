@@ -1,8 +1,10 @@
 <?php
 namespace Modules\Settings\Http\Controllers\Financial;
 
+use Illuminate\Console\View\Components\Task;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Modules\Settings\Models\{
     CurrencySettings,
@@ -23,7 +25,8 @@ class FinancialController extends Controller
         'gateway' => GatewaySettings::firstOrNew(['id' => 1]),
         'invoice' => InvoiceSettings::firstOrNew(['id' => 1]),
         'policies' => PolicySettings::firstOrNew(['id' => 1]),
-        'countries' => Country::all()
+        'countries' => Country::with('taxSetting')->get()
+
     ]);
 }
 
@@ -40,18 +43,34 @@ class FinancialController extends Controller
 
     public function saveTaxSettings(Request $request)
     {
+        Log::info($request->all());
+    
         $validated = $request->validate([
-            'default_rate' => 'required|numeric|min:0',
-            'tax_countries' => 'required|array'
+            'tax_rates' => 'required|array',
+            'tax_rates.*' => 'numeric|min:0',
         ]);
-
-        TaxSettings::updateOrCreate(['id' => 1], [
-            'default_rate' => $validated['default_rate'],
-            'tax_countries' => implode(',', $validated['tax_countries'])
-        ]);
-
+    
+        foreach ($validated['tax_rates'] as $countryId => $taxRate) {
+            // البحث عن السجل الفردي
+            $country = TaxSettings::where('countryId', $countryId)->first();
+    
+            if (!$country) {
+                // إذا لم يتم العثور عليه، قم بإنشاء سجل جديد
+                TaxSettings::create([
+                    'countryId' => $countryId,
+                    'default_rate' => $taxRate,
+                ]);
+            } else {
+                // إذا تم العثور عليه، قم بتحديث السجل
+                $country->update([
+                    'default_rate' => $taxRate,
+                ]);
+            }
+        }
+    
         return Redirect::route('settings.financial')->with('success', __('Tax settings updated'));
     }
+    
 
     public function saveGatewaySettings(Request $request)
     {

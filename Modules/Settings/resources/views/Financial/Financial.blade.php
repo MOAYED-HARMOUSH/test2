@@ -52,41 +52,34 @@
         </div>
     </form>
 
-    <!-- Tax Settings -->
-    <form method="POST" action="{{ route('settings.tax.save') }}" class="card mb-4">
-        @csrf
-        <div class="card-body">
-            <h5 class="card-title text-primary mb-3">{{ __('Tax Settings') }}</h5>
-            
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">{{ __('Default Tax Rate (%)') }}</label>
-                    <input type="number" name="default_rate" 
-                        value="{{ old('default_rate', $tax->default_rate) }}" 
-                        class="form-control"
-                        min="0" step="0.01">
-                </div>
-                
-                <div class="col-md-6">
-                    <label class="form-label">{{ __('Tax Countries') }}</label>
-                    <select name="tax_countries[]" multiple class="form-select" style="height: 150px;">
-                        @foreach($countries as $country)
-                            <option value="{{ $country->code }}"
-                                {{ in_array($country->code, explode(',', $tax->tax_countries ?? '')) ? 'selected' : '' }}>
-                                {{ $country->name['en'] }} <!-- Use the correct language key -->
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">
-                    {{ __('Save Changes') }}
-                </button>
-            </div>
-        </div>
-    </form>
+       <!-- Tax Settings -->
+<form method="POST" action="{{ route('settings.tax.save') }}" class="card mb-4">
+    @csrf
+    <div class="card-body">
+        <h5 class="card-title text-primary mb-3">{{ __('Tax Settings') }}</h5>
 
+        <div class="row g-3">
+            @foreach($countries as $country)
+                <div class="col-md-6">
+                    <label class="form-label">{{ $country->name['en'] }} ({{ __('Tax Rate (%)') }})</label>
+                    <input type="number" 
+                           name="tax_rates[{{ $country->id }}]" 
+                           value="{{ old('tax_rates.' . $country->id, $country->taxSetting->default_rate ?? 0) }}" 
+                           class="form-control"
+                           min="0" 
+                           step="0.01">
+                </div>
+            @endforeach
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">
+                {{ __('Save Changes') }}
+            </button>
+        </div>
+    </div>
+</form>
+    
     <!-- Payment Gateway -->
     <form method="POST" action="{{ route('settings.gateway.save') }}" class="card mb-4">
         @csrf
