@@ -19,7 +19,7 @@
         @include('users::layouts.sidebar')
 
         <!-- Main Content -->
-        <div class="p-4 flex-grow-1">
+        <div class="p-4 flex-grow-1" style="margin-left: 270px">
             @yield('content')
         </div>
     </div>
