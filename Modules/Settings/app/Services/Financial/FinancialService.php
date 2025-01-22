@@ -43,16 +43,31 @@ class FinancialService implements IFinancialService {
         }
     }
 
-    public function saveGatewaySettings(CreateGatewaySettingsRequest $request) {
-        // الحصول على البيانات المتحقق منها
-        $validated = $request->validated();
+    public function saveGatewaySettings(CreateGatewaySettingsRequest $request)
+{
+    // الحصول على البيانات المرسلة من النموذج
+    $gatewaysData = $request->input('gateways');
 
-        GatewaySettings::updateOrCreate(['id' => 1], [
-            'gateway_name' => 'PayPal',
-            'api_key' => $validated['api_key'],
-            'secret_key' => $validated['secret_key']
-        ]);
+    // التكرار على كل بوابة دفع وحفظ البيانات
+    foreach ($gatewaysData as $id => $data) {
+        GatewaySettings::updateOrCreate(
+            ['id' => $id], // البحث باستخدام الـ ID
+            [
+                'gateway_name' => $data['name'],
+                'api_key' => $data['api_key'],
+                'secret_key' => $data['secret_key'],
+                'currency_symbol' => $data['currency_symbol'],
+                'symbol_position' => $data['symbol_position'],
+                'thousands_separator' => $data['thousands_separator'],
+                'decimal_separator' => $data['decimal_separator'],
+                'is_active' => $data['is_active'] ?? false,
+            ]
+        );
     }
+
+    return redirect()->back()->with('success', __('Settings saved successfully.'));
+}
+    
 
     public function saveInvoiceSettings(CreateInvoiceSettingsRequest $request) {
         // الحصول على البيانات المتحقق منها

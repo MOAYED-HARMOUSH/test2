@@ -3,6 +3,7 @@ namespace Modules\Settings\Http\Controllers\Financial;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Modules\Settings\Models\Country;
 use Modules\Settings\Models\CurrencySettings;
 use Modules\Settings\Models\GatewaySettings;
@@ -27,10 +28,11 @@ class FinancialController extends Controller
 
     public function showFinancialSettings()
     {
+         Log::info( GatewaySettings::all());
         return view('settings::Financial.Financial', [
             'currency' => CurrencySettings::firstOrNew(['id' => 1]),
             'tax' => TaxSettings::firstOrNew(['id' => 1]),
-            'gateway' => GatewaySettings::firstOrNew(['id' => 1]),
+            'gateways' => GatewaySettings::all(),
             'invoice' => InvoiceSettings::firstOrNew(['id' => 1]),
             'policies' => PolicySettings::first(),
             'countries' => Country::with('taxSetting')->get()
@@ -51,6 +53,7 @@ class FinancialController extends Controller
 
     public function saveGatewaySettings(CreateGatewaySettingsRequest $request)
     {
+        Log::info($request);
         $this->financialService->saveGatewaySettings($request);
         return redirect()->route('settings.financial')->with('success', __('Gateway settings updated'));
     }

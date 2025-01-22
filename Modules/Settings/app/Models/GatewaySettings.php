@@ -14,12 +14,20 @@ class GatewaySettings extends Model
      * The attributes that are mass assignable.
      */
     protected $table = 'gateway_settings';
-    protected $fillable = ['gateway_name', 'api_key', 'secret_key', 'is_active'];
-
-    protected $casts = [
-        'api_key' => 'encrypted',
-        'secret_key' => 'encrypted',
+    protected $fillable = [
+        'gateway_name',
+        'api_key',
+        'secret_key',
+        'currency_symbol',
+        'symbol_position',
+        'thousands_separator',
+        'decimal_separator',
+        'is_active',
     ];
+    // protected $casts = [
+    //     'api_key' => 'encrypted',
+    //     'secret_key' => 'encrypted',
+    // ];
     // protected static function newFactory(): GatewaySettingsFactory
     // {
     //     // return GatewaySettingsFactory::new();
