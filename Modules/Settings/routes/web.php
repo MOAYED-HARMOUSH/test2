@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Settings\Http\Controllers\Authentication\AuthenticationController;
 use Modules\Settings\Http\Controllers\Country\CountryController as CountryCountryController;
 use Modules\Settings\Http\Controllers\CountryController;
 use Modules\Settings\Http\Controllers\Financial\FinancialController;
@@ -39,3 +40,34 @@ Route::prefix('settings')->group(function () {
     Route::get('/financial/fetch', [FinancialController::class, 'fetchFinancialSettings'])->name('settings.financial.fetch'); // هذا الرابط كان ناقصًا
 });
 
+Route::prefix('settings/authentication')->name('settings.authentication.')->group(function () {
+
+    // General Authentication Settings
+    Route::get('/general', [AuthenticationController::class, 'showGeneralSettings'])
+        ->name('general');
+    Route::post('/general/save', [AuthenticationController::class, 'saveGeneralSettings'])
+        ->name('general.save');
+
+    // Authentication Mechanisms
+    Route::get('/mechanisms', [AuthenticationController::class, 'showMechanisms'])
+        ->name('mechanisms');
+    Route::post('/mechanisms/save', [AuthenticationController::class, 'saveMechanisms'])
+        ->name('mechanisms.save');
+    Route::get('/mechanisms/test', [AuthenticationController::class, 'testMechanisms'])
+        ->name('mechanisms.test');
+
+    // Verification Methods
+    Route::get('/verification', [AuthenticationController::class, 'showVerificationSettings'])
+        ->name('verification');
+    Route::post('/verification/save', [AuthenticationController::class, 'saveVerificationSettings'])
+        ->name('verification.save');
+
+    // SSO Settings
+    Route::get('/sso', [AuthenticationController::class, 'showSSOSettings'])
+        ->name('sso');
+    Route::post('/sso/save', [AuthenticationController::class, 'saveSSOSettings'])
+        ->name('sso.save');
+    Route::get('/sso/test', [AuthenticationController::class, 'testSSOConnection'])
+        ->name('sso.test');
+
+});

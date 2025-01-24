@@ -44,6 +44,8 @@
                 <ul class="list-unstyled ps-4 submenu">
                     <li><a class="nav-link text-dark" href="{{ route('settings.countries.index') }}">Countries</a></li>
                     <li><a class="nav-link text-dark" href="{{ route('settings.financial') }}">Finance</a></li>
+                    <li><a class="nav-link text-dark" href="{{ route('settings.authentication.general') }}">Authentication</li>
+
                 </ul>
             </div>
         </li>
