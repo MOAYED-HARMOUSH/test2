@@ -110,7 +110,7 @@
             </div>
         @endif
 
-        <form action="{{ route('password.email') }}" method="POST">
+        {{-- <form action="{{ route('password.email') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label>
@@ -132,6 +132,13 @@
                 @endif
             </div>
             <button type="submit">Proceed</button>
+        </form> --}}
+        <form action="{{ route('auth.password.send.code') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <button type="submit">إرسال الكود</button>
         </form>
 
         <div class="links">

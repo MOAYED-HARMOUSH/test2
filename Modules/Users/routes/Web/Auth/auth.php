@@ -6,6 +6,7 @@ use Modules\Users\Http\Controllers\Auth\UserLoginController;
 use Modules\Users\Http\Controllers\Auth\UserSignUpController;
 use Modules\Users\Http\Controllers\Crud\UserCrudController as CrudUserCrudController;
 use Modules\Users\Http\Controllers\ForgotPasswordController;
+use Modules\Users\Http\Controllers\PasswordResetCodeController;
 use Modules\Users\Http\Controllers\ResetPasswordController;
 
 /*
@@ -38,11 +39,18 @@ Route::get('/dashboard', [CrudUserCrudController::class, 'dashboard'])->name('da
 
 Route::get('/AllUsers', [CrudUserCrudController::class, 'AllUsers'])->name('AllUsers');
 
-// routes/web.php
-// Route::get('/forget-password', [UserSignUpController::class, 'showForgetPasswordChoice'])->name('password.reset.choice.form');
-// Route::post('/forget-password', [UserSignUpController::class, 'handleForgetPasswordChoice'])->name('password.reset.choice');
-// Route::get('/reset-password/{token}', [UserSignUpController::class, 'showResetPasswordForm'])->name('password.reset.form');
 
-// Route::post('/reset-password', [UserSignUpController::class, 'updatePassword'])->name('password.update');
-
-
+//
+//1
+Route::get('password/reset', [PasswordResetCodeController::class, 'showLinkRequestForm'])
+->name('password.request');
+ 
+//2
+Route::post('/password/send-code', [PasswordResetCodeController::class, 'sendResetCode'])
+    ->name('password.send.code');
+//3
+    Route::get('password/reset/{token}', [PasswordResetCodeController::class, 'showResetForm'])
+    ->name('password.reset');
+//4
+Route::post('/password/reset', [PasswordResetCodeController::class, 'verifyCodeAndResetPassword'])
+    ->name('password.reset.submit');

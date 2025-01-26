@@ -28,7 +28,7 @@
 
         h1 {
             text-align: center;
-            color: #2196F3; /* لون أزرق */
+            color: #2196F3;
             margin-bottom: 20px;
         }
 
@@ -37,7 +37,8 @@
         }
 
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="number"] {
             width: 100%;
             padding: 10px;
             font-size: 16px;
@@ -48,8 +49,9 @@
         }
 
         input[type="text"]:focus,
-        input[type="password"]:focus {
-            border-color: #2196F3; /* لون أزرق */
+        input[type="password"]:focus,
+        input[type="number"]:focus {
+            border-color: #2196F3;
             outline: none;
         }
 
@@ -57,7 +59,7 @@
             width: 100%;
             padding: 12px;
             font-size: 16px;
-            background-color: #2196F3; /* لون أزرق */
+            background-color: #2196F3;
             color: white;
             border: none;
             border-radius: 5px;
@@ -66,7 +68,7 @@
         }
 
         button:hover {
-            background-color: #1e88e5; /* لون أزرق داكن عند التمرير */
+            background-color: #1e88e5;
         }
     </style>
 </head>
@@ -74,7 +76,7 @@
     <div class="container">
         <h1>Reset Password</h1>
 
-        <!-- عرض رسائل الخطأ -->
+        <!-- Display Errors -->
         @if ($errors->any())
             <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
                 <ul>
@@ -85,32 +87,36 @@
             </div>
         @endif
 
-        <!-- عرض رسائل النجاح -->
+        <!-- Display Success Messages -->
         @if (session('success'))
             <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
                 {{ session('success') }}
             </div>
         @endif
 
-        <!-- نموذج إعادة تعيين كلمة المرور -->
-        <form action="{{ route('password.update') }}" method="POST">
+        <!-- Reset Password Form -->
+        <form action="{{ route('auth.password.reset.submit') }}" method="POST">
             @csrf
-            <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="form-group">
-                <input type="text" name="email" placeholder="email">
+                <input type="text" name="email" placeholder="Email" required value="{{ old('email') }}">
             </div>
 
             <div class="form-group">
-                <input type="password" name="password" placeholder="New Password">
+                <input type="number" name="code" placeholder="Verification Code" required>
             </div>
 
             <div class="form-group">
-                <input type="password" name="password_confirmation" placeholder="Confirm New Password">
+                <input type="password" name="password" placeholder="New Password" required>
             </div>
 
-            <button type="submit">Submit</button>
+            <div class="form-group">
+                <input type="password" name="password_confirmation" placeholder="Confirm New Password" required>
+            </div>
+
+            <button type="submit">Reset Password</button>
         </form>
     </div>
 </body>
 </html>
+    

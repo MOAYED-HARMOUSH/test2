@@ -26,19 +26,19 @@ class AuthenticationSettingsSeeder extends Seeder
 
             'abjad_enabled' => true,
             'social_enabled' => true,
-            'google_client_id' => '1234567890-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com',
-            'facebook_app_id' => '987654321012345',
+            'google_client_id' => 'test',
+            'facebook_app_id' => 'test',
             'openid_enabled' => false,
             'openid_provider_url' => 'https://sso.example.com',
-            'openid_client_id' => 'sso-client-id-12345',
-            'openid_client_secret' => 'sso-client-secret-67890',
+            'openid_client_id' => 'test',
+            'openid_client_secret' => 'test',
             'smtp_server' => 'smtp.example.com',
             'email_template' => 'Welcome to our platform! Please verify your email.',
-            'twilio_sid' => 'AC1234567890abcdef1234567890abcdef',
+            'twilio_sid' => '',
             'whatsapp_template' => 'Your verification code is: {code}',
             'sso_provider_url' => 'https://sso.example.com',
-            'sso_client_id' => 'sso-client-id-12345',
-            'sso_client_secret' => 'sso-client-secret-67890',
+            'sso_client_id' => 'test',
+            'sso_client_secret' => 'test',
         ]);
 
         $this->command->info('Authentication settings seeded successfully!');
