@@ -81,6 +81,8 @@
                             @enderror
                         </div>
                         <a href="{{ route('google.login') }}" class="btn btn-primary">Login with Google</a>
+                      <BR></BR>
+                        <a href="{{ route('openid.login') }}" class="btn btn-primary">Login with Google (OpenID)</a>
 
                         <div class="form-group">
                             <input type="checkbox" name="remember" id="remember-me" class="agree-term" />

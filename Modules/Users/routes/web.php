@@ -22,3 +22,7 @@ use Modules\Users\Http\Controllers\UsersController;
 
 Route::get('login/google', [UserLoginController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('login/google/callback', [UserLoginController::class, 'handleGoogleCallback']);
+
+
+Route::get('login/openid', [UserLoginController::class, 'redirectToOpenID'])->name('openid.login');
+Route::get('login/openid/callback', [UserLoginController::class, 'handleOpenIDCallback']);

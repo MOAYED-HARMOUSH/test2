@@ -92,4 +92,35 @@ class UserLoginController extends Controller
 
         return view('users::dashboard.dashboard', compact('users'));
     }
+
+    public function redirectToOpenID()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    // Handle the callback from OpenID provider
+    public function handleOpenIDCallback()
+    {
+        // Get user info from the provider
+        $openidUser = Socialite::driver('google')->user();
+
+        // Check if user already exists in the database
+        $user = User::where('email', $openidUser->getEmail())->first();
+
+        if (!$user) {
+            // Create a new user if doesn't exist
+            $user = User::create([
+                'name' => $openidUser->getName(),
+                'email' => $openidUser->getEmail(),
+                'password' => bcrypt('password'), // Or any default value
+            ]);
+        }
+
+        // Log the user in
+        Auth::login($user, true);
+
+        // Redirect to intended page (e.g., dashboard)
+        $users = [];
+
+        return view('users::dashboard.dashboard', compact('users'));    }
 }
