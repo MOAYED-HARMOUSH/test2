@@ -5,6 +5,8 @@ namespace Modules\Settings\Http\Controllers\Authentication;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Settings\AuthenticationSettings;
+use Illuminate\Support\Facades\Log;
+use Modules\Settings\Models\AuthSettings;
 
 class AuthenticationController extends Controller
 {
@@ -12,58 +14,30 @@ class AuthenticationController extends Controller
     public function showGeneralSettings()
     {
         // Dummy data for General Authentication Settings
-        $general = (object) [
-            'email_verification' => true,
-            'whatsapp_verification' => false,
-            'force_logout' => true,
-            'concurrent_sessions' => false,
-        ];
+            $settings = AuthSettings::first();
+            // $mechanisms = AuthSettings::first();
+            // $verification = AuthSettings::first();
+            // $sso = AuthSettings::first();
     
-        // Dummy data for Authentication Mechanisms
-        $mechanisms = (object) [
-            'abjad' => (object) [
-                'enabled' => true, // Enable/Disable Abjad Authentication
-            ],
-            'social' => (object) [
-                'enabled' => true, // Enable/Disable Social Media Login
-                'google_client_id' => '1234567890-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com',
-                'facebook_app_id' => '987654321012345',
-            ],
-            'openid' => (object) [
-                'enabled' => false, // Enable/Disable OpenID Connect
-                'provider_url' => 'https://sso.example.com',
-                'client_id' => 'sso-client-id-12345',
-                'client_secret' => 'sso-client-secret-67890',
-            ],
-        ];
-    
-        // Dummy data for Verification Methods
-        $verification = (object) [
-            'smtp_server' => 'smtp.example.com',
-            'email_template' => 'Welcome to our platform! Please verify your email.',
-            'twilio_sid' => 'test12',
-            'whatsapp_template' => 'Your verification code is: {code}',
-        ];
-     // Dummy data for SSO Settings
-     $sso = (object) [
-        'openid_url' => 'https://sso.example.com',
-        'client_id' => 'sso-client-id-12345',
-        'client_secret' => 'sso-client-secret-67890',
-    ];
-
     // Pass all variables to the view
-    return view('settings::Authentication.AuthenticationSettings', compact('general', 'mechanisms', 'verification', 'sso'));
+    return view('settings::Authentication.AuthenticationSettings', compact('settings'));
  }
     public function saveGeneralSettings(Request $request)
     {
+        Log::info($request);
         $data = $request->validate([
-            'enable_email_verification' => 'boolean',
-            'enable_whatsapp_verification' => 'boolean',
+            'email_verification' => 'boolean',
+            'whatsapp_verification' => 'boolean',
             'force_logout' => 'boolean',
-            'prohibit_concurrent_sessions' => 'boolean',
+            'concurrent_sessions' => 'boolean',
         ]);
-
-        // AuthenticationSettings::updateOrCreate(['id' => 1], $data);
+        // $firstRecord = AuthSettings::all()->pluck('id');
+        // Log::info($firstRecord);
+        $firstRecord = AuthSettings::first();
+ 
+        AuthSettings::updateOrCreate(
+            ['id' => $firstRecord ? $firstRecord->id : null]
+            , $data);
 
         return redirect()->back()->with('success', __('General settings saved successfully!'));
     }

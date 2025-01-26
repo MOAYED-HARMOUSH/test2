@@ -11,6 +11,9 @@ class CreateCurrencySettingsTable extends Migration
             $table->id();
             $table->char('default_currency', 3)->default('USD')->comment('العملة الافتراضية');
             $table->enum('price_display', ['symbol', 'name'])->default('symbol')->comment('طريقة عرض السعر');
+         //sympol 
+         // boolean (isdefault) 
+         
             $table->timestamps();
         });
     }

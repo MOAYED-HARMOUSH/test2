@@ -1,5 +1,5 @@
 <div class="sidebar p-3" style="position: fixed; top: 0; left: 0; height: 100vh; width: 250px; overflow-y: auto; background-color: #f8f9fa;">
-    <h5 class="mb-3 text-primary">Abjad Online</h5>
+    <h2 class="mb-3 text-primary">Abjad Online</h2>
     <button class="btn btn-outline-primary mb-3">Preview</button>
     <ul class="nav flex-column">
         <li class="nav-item">

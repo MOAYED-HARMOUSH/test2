@@ -21,6 +21,7 @@ class CreateGatewaySettingsTable extends Migration
         });
     }
 
+    
     public function down()
     {
         Schema::dropIfExists('gateway_settings');

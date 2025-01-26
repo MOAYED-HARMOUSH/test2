@@ -24,7 +24,7 @@
                 <div class="col-md-6">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="email_verification" 
-                            id="email_verification" {{ $general->email_verification ? 'checked' : '' }}>
+                            id="email_verification" value="1" {{ $settings->email_verification ? 'checked' : '' }}>
                         <label class="form-check-label" for="email_verification">
                             {{ __('Enable Email Verification') }}
                         </label>
@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="whatsapp_verification" 
-                            id="whatsapp_verification" {{ $general->whatsapp_verification ? 'checked' : '' }}>
+                            id="whatsapp_verification"  value="1" {{ $settings->whatsapp_verification ? 'checked' : '' }}>
                         <label class="form-check-label" for="whatsapp_verification">
                             {{ __('Enable WhatsApp Verification') }}
                         </label>
@@ -46,7 +46,7 @@
                 <div class="col-md-6">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="force_logout" 
-                            id="force_logout" {{ $general->force_logout ? 'checked' : '' }}>
+                            id="force_logout"  value="1" {{ $settings->force_logout ? 'checked' : '' }}>
                         <label class="form-check-label" for="force_logout">
                             {{ __('Force Logout After Inactivity') }}
                         </label>
@@ -57,7 +57,7 @@
                 <div class="col-md-6">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="concurrent_sessions" 
-                            id="concurrent_sessions" {{ $general->concurrent_sessions ? 'checked' : '' }}>
+                            id="concurrent_sessions"  value="1" {{ $settings->concurrent_sessions ? 'checked' : '' }}>
                         <label class="form-check-label" for="concurrent_sessions">
                             {{ __('Prohibit Concurrent Sessions') }}
                         </label>
@@ -84,8 +84,8 @@
             <div class="row g-3 border-bottom pb-3 mb-3">
                 <div class="col-md-12">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="mechanisms[abjad][enabled]" 
-                            id="abjad_enabled" {{ $mechanisms->abjad->enabled ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="abjad_enabled" 
+                            id="abjad_enabled"  value="1" {{ $settings->abjad_enabled ? 'checked' : '' }}>
                         <label class="form-check-label" for="abjad_enabled">
                             {{ __('Enable Abjad Authentication') }}
                         </label>
@@ -97,8 +97,8 @@
             <div class="row g-3 border-bottom pb-3 mb-3">
                 <div class="col-md-12">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="mechanisms[social][enabled]" 
-                            id="social_enabled" {{ $mechanisms->social->enabled ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="social_enabled" 
+                            id="social_enabled"  value="1" {{ $settings->social_enabled ? 'checked' : '' }}>
                         <label class="form-check-label" for="social_enabled">
                             {{ __('Enable Social Media Login') }}
                         </label>
@@ -108,17 +108,17 @@
                 <!-- Google Settings -->
                 <div class="col-md-6">
                     <label class="form-label">{{ __('Google Client ID') }}</label>
-                    <input type="text" name="mechanisms[social][google_client_id]" 
-                        value="{{ $mechanisms->social->google_client_id }}" 
-                        class="form-control" {{ !$mechanisms->social->enabled ? 'disabled' : '' }}>
+                    <input type="text" name="google_client_id" 
+                        value="{{ $settings->google_client_id }}" 
+                        class="form-control" {{ !$settings->social_enabled ? 'disabled' : '' }}>
                 </div>
 
                 <!-- Facebook Settings -->
                 <div class="col-md-6">
                     <label class="form-label">{{ __('Facebook App ID') }}</label>
-                    <input type="text" name="mechanisms[social][facebook_app_id]" 
-                        value="{{ $mechanisms->social->facebook_app_id }}" 
-                        class="form-control" {{ !$mechanisms->social->enabled ? 'disabled' : '' }}>
+                    <input type="text" name="facebook_app_id" 
+                        value="{{ $settings->facebook_app_id }}" 
+                        class="form-control" {{ !$settings->social_enabled ? 'disabled' : '' }}>
                 </div>
             </div>
 
@@ -126,8 +126,8 @@
             <div class="row g-3">
                 <div class="col-md-12">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="mechanisms[openid][enabled]" 
-                            id="openid_enabled" {{ $mechanisms->openid->enabled ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="openid_enabled" 
+                            id="openid_enabled"  value="1" {{ $settings->openid_enabled ? 'checked' : '' }}>
                         <label class="form-check-label" for="openid_enabled">
                             {{ __('Enable OpenID Connect') }}
                         </label>
@@ -137,23 +137,23 @@
                 <!-- OpenID Settings -->
                 <div class="col-md-4">
                     <label class="form-label">{{ __('OpenID Provider URL') }}</label>
-                    <input type="url" name="mechanisms[openid][provider_url]" 
-                        value="{{ $mechanisms->openid->provider_url }}" 
-                        class="form-control" {{ !$mechanisms->openid->enabled ? 'disabled' : '' }}>
+                    <input type="url" name="openid_provider_url" 
+                        value="{{ $settings->openid_provider_url }}" 
+                        class="form-control" {{ !$settings->openid_enabled ? 'disabled' : '' }}>
                 </div>
 
                 <div class="col-md-4">
                     <label class="form-label">{{ __('Client ID') }}</label>
-                    <input type="text" name="mechanisms[openid][client_id]" 
-                        value="{{ $mechanisms->openid->client_id }}" 
-                        class="form-control" {{ !$mechanisms->openid->enabled ? 'disabled' : '' }}>
+                    <input type="text" name="openid_client_id" 
+                        value="{{ $settings->openid_client_id }}" 
+                        class="form-control" {{ !$settings->openid_enabled ? 'disabled' : '' }}>
                 </div>
 
                 <div class="col-md-4">
                     <label class="form-label">{{ __('Client Secret') }}</label>
-                    <input type="password" name="mechanisms[openid][client_secret]" 
-                        value="{{ $mechanisms->openid->client_secret }}" 
-                        class="form-control" {{ !$mechanisms->openid->enabled ? 'disabled' : '' }}>
+                    <input type="password" name="openid_client_secret" 
+                        value="{{ $settings->openid_client_secret }}" 
+                        class="form-control" {{ !$settings->openid_enabled ? 'disabled' : '' }}>
                 </div>
             </div>
 
@@ -169,7 +169,7 @@
     <!-- Verification Methods -->
     <form method="POST" action="{{ route('settings.authentication.verification.save') }}" class="card mb-4">
         @csrf
-        <div class="card-body">
+        <div class="card-body"> 
             <h5 class="card-title text-primary mb-3">{{ __('Verification Methods') }}</h5>
             
             <div class="row g-3">
@@ -180,13 +180,13 @@
                     <div class="mt-3">
                         <label class="form-label">{{ __('SMTP Server') }}</label>
                         <input type="text" name="smtp_server" 
-                            value="{{ $verification->smtp_server }}" 
+                            value="{{ $settings->smtp_server }}" 
                             class="form-control">
                     </div>
                     
                     <div class="mt-3">
                         <label class="form-label">{{ __('Email Template') }}</label>
-                        <textarea name="email_template" class="form-control" rows="4">{{ $verification->email_template }}</textarea>
+                        <textarea name="email_template" class="form-control" rows="4">{{ $settings->email_template }}</textarea>
                     </div>
                 </div>
 
@@ -197,13 +197,13 @@
                     <div class="mt-3">
                         <label class="form-label">{{ __('Twilio SID') }}</label>
                         <input type="text" name="twilio_sid" 
-                            value="{{ $verification->twilio_sid }}" 
+                            value="{{ $settings->twilio_sid }}" 
                             class="form-control">
                     </div>
                     
                     <div class="mt-3">
                         <label class="form-label">{{ __('WhatsApp Template') }}</label>
-                        <textarea name="whatsapp_template" class="form-control" rows="4">{{ $verification->whatsapp_template }}</textarea>
+                        <textarea name="whatsapp_template" class="form-control" rows="4">{{ $settings->whatsapp_template }}</textarea>
                     </div>
                 </div>
             </div>
@@ -227,24 +227,24 @@
                 <!-- OpenID Provider URL -->
                 <div class="col-md-4">
                     <label class="form-label">{{ __('OpenID Provider URL') }}</label>
-                    <input type="url" name="openid_url" 
-                        value="{{ $sso->openid_url }}" 
+                    <input type="url" name="sso_provider_url" 
+                        value="{{ $settings->sso_provider_url }}" 
                         class="form-control" required>
                 </div>
 
                 <!-- Client ID -->
                 <div class="col-md-4">
                     <label class="form-label">{{ __('Client ID') }}</label>
-                    <input type="text" name="client_id" 
-                        value="{{ $sso->client_id }}" 
+                    <input type="text" name="sso_client_id" 
+                        value="{{ $settings->sso_client_id }}" 
                         class="form-control" required>
                 </div>
 
                 <!-- Client Secret -->
                 <div class="col-md-4">
                     <label class="form-label">{{ __('Client Secret') }}</label>
-                    <input type="password" name="client_secret" 
-                        value="{{ $sso->client_secret }}" 
+                    <input type="password" name="sso_client_secret" 
+                        value="{{ $settings->sso_client_secret }}" 
                         class="form-control" required>
                 </div>
             </div>
@@ -267,8 +267,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Enable/Disable Social Media Fields
     const socialEnabled = document.getElementById('social_enabled');
-    const googleClientId = document.querySelector('input[name="mechanisms[social][google_client_id]"]');
-    const facebookAppId = document.querySelector('input[name="mechanisms[social][facebook_app_id]"]');
+    const googleClientId = document.querySelector('input[name="google_client_id"]');
+    const facebookAppId = document.querySelector('input[name="facebook_app_id"]');
 
     socialEnabled.addEventListener('change', function() {
         googleClientId.disabled = !this.checked;
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Enable/Disable OpenID Fields
     const openidEnabled = document.getElementById('openid_enabled');
-    const openidFields = document.querySelectorAll('input[name^="mechanisms[openid]"]');
+    const openidFields = document.querySelectorAll('input[name^="openid_"]');
 
     openidEnabled.addEventListener('change', function() {
         openidFields.forEach(field => {
