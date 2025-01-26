@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Users\Services\Auth;
+namespace Modules\Users\Services\Crud;
 
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Users\Http\Requests\createUserRequest;

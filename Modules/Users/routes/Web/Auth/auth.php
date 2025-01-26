@@ -54,3 +54,4 @@ Route::post('/password/send-code', [PasswordResetCodeController::class, 'sendRes
 //4
 Route::post('/password/reset', [PasswordResetCodeController::class, 'verifyCodeAndResetPassword'])
     ->name('password.reset.submit');
+

@@ -3,6 +3,7 @@
 use App\Http\Controllers\RolesAndPermissionsController;
 use Illuminate\Support\Facades\Route;
 use Modules\Users\Http\Controllers\Auth\UsersController;
+use Modules\Users\Http\Controllers\PasswordResetCodeController;
 
 /*
  *--------------------------------------------------------------------------
@@ -21,3 +22,7 @@ use Modules\Users\Http\Controllers\Auth\UsersController;
 
 Route::get('/setup_roles_permissions', [RolesAndPermissionsController::class, 'setupRolesAndPermissions'])
     ->name('setup.roles.permissions');
+
+    Route::post('/passwordSendCode', [PasswordResetCodeController::class, 'WsendCode']);
+
+    Route::post('/passwordReset', [PasswordResetCodeController::class, 'WresetPassword']);

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('lastName')->nullable();
             $table->string('country')->nullable();
             $table->string('role')->nullable();
+            $table->string('reset_code')->nullable();
+
             $table->string('password')->nullable();
             $table->rememberToken();
 
