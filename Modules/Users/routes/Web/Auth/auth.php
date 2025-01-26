@@ -55,3 +55,5 @@ Route::post('/password/send-code', [PasswordResetCodeController::class, 'sendRes
 Route::post('/password/reset', [PasswordResetCodeController::class, 'verifyCodeAndResetPassword'])
     ->name('password.reset.submit');
 
+    Route::get('login/google', [UserLoginController::class, 'redirectToGoogle'])->name('google.login');
+    Route::get('login/google/callback', [UserLoginController::class, 'handleGoogleCallback']);

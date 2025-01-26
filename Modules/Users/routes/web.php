@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Users\Http\Controllers\Auth\UserLoginController;
 use Modules\Users\Http\Controllers\Auth\UsersController as AuthUsersController;
 use Modules\Users\Http\Controllers\UsersController;
 
@@ -18,3 +19,6 @@ use Modules\Users\Http\Controllers\UsersController;
 // Route::group([], function () {
 //     Route::resource('users', UsersController::class)->names('users');
 // });
+
+Route::get('login/google', [UserLoginController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('login/google/callback', [UserLoginController::class, 'handleGoogleCallback']);

@@ -80,6 +80,8 @@
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+                        <a href="{{ route('google.login') }}" class="btn btn-primary">Login with Google</a>
+
                         <div class="form-group">
                             <input type="checkbox" name="remember" id="remember-me" class="agree-term" />
                             <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
