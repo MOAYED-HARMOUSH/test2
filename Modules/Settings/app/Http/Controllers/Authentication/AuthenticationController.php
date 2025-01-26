@@ -28,11 +28,10 @@ class AuthenticationController extends Controller
         $data = $request->validate([
             'email_verification' => 'boolean',
             'whatsapp_verification' => 'boolean',
-            'force_logout' => 'boolean',
+            'force_logout' => 'boolean',          
             'concurrent_sessions' => 'boolean',
         ]);
-        // $firstRecord = AuthSettings::all()->pluck('id');
-        // Log::info($firstRecord);
+      
         $firstRecord = AuthSettings::first();
  
         AuthSettings::updateOrCreate(
@@ -51,14 +50,23 @@ class AuthenticationController extends Controller
 
     public function saveMechanisms(Request $request)
     {
+        Log::info($request);
+
         $data = $request->validate([
-            'primary_method' => 'required|in:abjad,social,openid',
+            'abjad_enabled'=>'boolean',
+            'social_enabled'=>'boolean',
+            'openid_enabled'=>'boolean',
             'google_client_id' => 'nullable|string',
             'facebook_app_id' => 'nullable|string',
         ]);
 
-        // AuthenticationSettings::updateOrCreate(['id' => 1], $data);
-
+        
+         $firstRecord = AuthSettings::first();
+        
+         AuthSettings::updateOrCreate(
+             ['id' => $firstRecord ? $firstRecord->id : null]
+             , $data);
+ 
         return redirect()->back()->with('success', __('Authentication mechanisms saved successfully!'));
     }
 
@@ -81,10 +89,16 @@ class AuthenticationController extends Controller
             'smtp_server' => 'nullable|string',
             'email_template' => 'nullable|string',
             'twilio_sid' => 'nullable|string',
+            'openid_enabled'=>'boolean',
+
             'whatsapp_template' => 'nullable|string',
         ]);
 
-        // AuthenticationSettings::updateOrCreate(['id' => 1], $data);
+        $firstRecord = AuthSettings::first();
+ 
+        AuthSettings::updateOrCreate(
+            ['id' => $firstRecord ? $firstRecord->id : null]
+            , $data);
 
         return redirect()->back()->with('success', __('Verification settings saved successfully!'));
     }
@@ -99,12 +113,17 @@ class AuthenticationController extends Controller
     public function saveSSOSettings(Request $request)
     {
         $data = $request->validate([
-            'openid_url' => 'required|url',
-            'client_id' => 'required|string',
-            'client_secret' => 'required|string',
+            'sso_provider_url' => 'nullable|url',
+            'sso_client_id' => 'nullable|string',
+ 
+            'sso_client_secret' => 'nullable|string',
         ]);
 
-        // AuthenticationSettings::updateOrCreate(['id' => 1], $data);
+        $firstRecord = AuthSettings::first();
+ 
+        AuthSettings::updateOrCreate(
+            ['id' => $firstRecord ? $firstRecord->id : null]
+            , $data);
 
         return redirect()->back()->with('success', __('SSO settings saved successfully!'));
     }

@@ -23,7 +23,10 @@
                 <!-- Email Verification -->
                 <div class="col-md-6">
                     <div class="form-check form-switch">
+                        <input type="hidden" name="email_verification" value="0"> <!-- حقل مخفي -->
+
                         <input class="form-check-input" type="checkbox" name="email_verification" 
+                        
                             id="email_verification" value="1" {{ $settings->email_verification ? 'checked' : '' }}>
                         <label class="form-check-label" for="email_verification">
                             {{ __('Enable Email Verification') }}
@@ -34,6 +37,8 @@
                 <!-- WhatsApp Verification -->
                 <div class="col-md-6">
                     <div class="form-check form-switch">
+                        <input type="hidden" name="whatsapp_verification" value="0"> <!-- حقل مخفي -->
+
                         <input class="form-check-input" type="checkbox" name="whatsapp_verification" 
                             id="whatsapp_verification"  value="1" {{ $settings->whatsapp_verification ? 'checked' : '' }}>
                         <label class="form-check-label" for="whatsapp_verification">
@@ -45,6 +50,7 @@
                 <!-- Force Logout -->
                 <div class="col-md-6">
                     <div class="form-check form-switch">
+                        <input type="hidden" name="force_logout" value="0"> <!-- حقل مخفي -->
                         <input class="form-check-input" type="checkbox" name="force_logout" 
                             id="force_logout"  value="1" {{ $settings->force_logout ? 'checked' : '' }}>
                         <label class="form-check-label" for="force_logout">
@@ -56,6 +62,8 @@
                 <!-- Concurrent Sessions -->
                 <div class="col-md-6">
                     <div class="form-check form-switch">
+                        <input type="hidden" name="concurrent_sessions" value="0"> <!-- حقل مخفي -->
+
                         <input class="form-check-input" type="checkbox" name="concurrent_sessions" 
                             id="concurrent_sessions"  value="1" {{ $settings->concurrent_sessions ? 'checked' : '' }}>
                         <label class="form-check-label" for="concurrent_sessions">
@@ -84,6 +92,8 @@
             <div class="row g-3 border-bottom pb-3 mb-3">
                 <div class="col-md-12">
                     <div class="form-check form-switch">
+                        <input type="hidden" name="abjad_enabled" value="0"> <!-- حقل مخفي -->
+
                         <input class="form-check-input" type="checkbox" name="abjad_enabled" 
                             id="abjad_enabled"  value="1" {{ $settings->abjad_enabled ? 'checked' : '' }}>
                         <label class="form-check-label" for="abjad_enabled">
@@ -97,6 +107,7 @@
             <div class="row g-3 border-bottom pb-3 mb-3">
                 <div class="col-md-12">
                     <div class="form-check form-switch">
+                        <input type="hidden" name="social_enabled" value="0"> <!-- حقل مخفي --> 
                         <input class="form-check-input" type="checkbox" name="social_enabled" 
                             id="social_enabled"  value="1" {{ $settings->social_enabled ? 'checked' : '' }}>
                         <label class="form-check-label" for="social_enabled">
@@ -126,6 +137,7 @@
             <div class="row g-3">
                 <div class="col-md-12">
                     <div class="form-check form-switch">
+                        <input type="hidden" name="openid_enabled" value="0"> <!-- حقل مخفي -->
                         <input class="form-check-input" type="checkbox" name="openid_enabled" 
                             id="openid_enabled"  value="1" {{ $settings->openid_enabled ? 'checked' : '' }}>
                         <label class="form-check-label" for="openid_enabled">
@@ -134,7 +146,7 @@
                     </div>
                 </div>
 
-                <!-- OpenID Settings -->
+                {{-- <!-- OpenID Settings -->
                 <div class="col-md-4">
                     <label class="form-label">{{ __('OpenID Provider URL') }}</label>
                     <input type="url" name="openid_provider_url" 
@@ -154,7 +166,7 @@
                     <input type="password" name="openid_client_secret" 
                         value="{{ $settings->openid_client_secret }}" 
                         class="form-control" {{ !$settings->openid_enabled ? 'disabled' : '' }}>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Save Button -->
@@ -276,16 +288,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Enable/Disable OpenID Fields
-    const openidEnabled = document.getElementById('openid_enabled');
-    const openidFields = document.querySelectorAll('input[name^="openid_"]');
+    // const openidEnabled = document.getElementById('openid_enabled');
+    // const openidFields = document.querySelectorAll('input[name^="openid_"]');
 
-    openidEnabled.addEventListener('change', function() {
-        openidFields.forEach(field => {
-            if (field !== openidEnabled) {
-                field.disabled = !this.checked;
-            }
-        });
-    });
+    // openidEnabled.addEventListener('change', function() {
+    //     openidFields.forEach(field => {
+    //         if (field !== openidEnabled) {
+    //             field.disabled = !this.checked;
+    //         }
+    //     });
+    // });
 });
 </script>
 @endsection
