@@ -13,8 +13,8 @@ class CurrencySettings extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $table = 'currency_settings'; // اسم الجدول
-    protected $fillable = ['default_currency', 'price_display']; // الحقول القابلة للتعبئة
+    protected $table = 'currency_settings'; 
+    protected $fillable = ['symbol', 'currency','display','isdefault','exchangeRate']; 
 
     // protected static function newFactory(): CurrencySettingsFactory
     // {

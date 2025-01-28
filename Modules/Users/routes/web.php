@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Users\Http\Controllers\Auth\UserLoginController;
 use Modules\Users\Http\Controllers\Auth\UsersController as AuthUsersController;
-use Modules\Users\Http\Controllers\UsersController;
+use Modules\Users\Http\Controllers\Auth\UserSignUpController;
+use Modules\Users\Http\Controllers\Crud\UserCrudController as CrudUserCrudController;
 
 /*
 |--------------------------------------------------------------------------

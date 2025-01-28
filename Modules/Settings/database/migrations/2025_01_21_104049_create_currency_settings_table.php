@@ -9,10 +9,11 @@ class CreateCurrencySettingsTable extends Migration
     {
         Schema::create('currency_settings', function (Blueprint $table) {
             $table->id();
-            $table->char('default_currency', 3)->default('USD')->comment('العملة الافتراضية');
-            $table->enum('price_display', ['symbol', 'name'])->default('symbol')->comment('طريقة عرض السعر');
-         //sympol 
-         // boolean (isdefault) 
+            $table->char('currency', 3)->default('USD');
+            $table->char('symbol',3)->default('$');
+            $table->enum('display', ['symbol', 'name'])->default('symbol');
+            $table->boolean('isdefault');
+            $table->double('exchangeRate');
          
             $table->timestamps();
         });
