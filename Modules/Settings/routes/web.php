@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Settings\Http\Controllers\Authentication\AuthenticationController;
 use Modules\Settings\Http\Controllers\Country\CountryController as CountryCountryController;
-use Modules\Settings\Http\Controllers\CountryController;
+use Modules\Settings\Http\Controllers\Currency\CurrencyController;
 use Modules\Settings\Http\Controllers\Financial\FinancialController;
 use Modules\Settings\Http\Controllers\SettingsController;
 
@@ -27,6 +27,13 @@ Route::prefix('settings/countries')->group(function () {
     Route::post('/', [CountryCountryController::class, 'store'])->name('settings.countries.store'); // إضافة دولة جديدة
     Route::put('/{id}', [CountryCountryController::class, 'update'])->name('settings.countries.update'); // تعديل دولة
     Route::delete('/{id}', [CountryCountryController::class, 'destroy'])->name('settings.countries.destroy'); // حذف دولة
+});
+
+Route::prefix('settings/currencies')->group(function () {
+    Route::get('/', [CurrencyController::class, 'index'])->name('settings.currencies.index');
+    Route::post('/', [CurrencyController::class, 'store'])->name('settings.currencies.store');
+    Route::put('/{id}', [CurrencyController::class, 'update'])->name('settings.currencies.update');
+    Route::delete('/{id}', [CurrencyController::class, 'destroy'])->name('settings.currencies.destroy');
 });
 
 Route::prefix('settings')->group(function () {

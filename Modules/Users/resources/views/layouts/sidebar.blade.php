@@ -1,9 +1,12 @@
-<div class="sidebar p-3" style="position: fixed; top: 0; left: 0; height: 100vh; width: 250px; background-color: #f8f9fa; display: flex; flex-direction: column;">
+<div class="sidebar p-3" style="position: fixed; top: 0; left: 0; height: 100vh; width: 270px; background-color: #f8f9fa; display: flex; flex-direction: column;">
     <!-- الجزء الرئيسي القابل للتمرير -->
     <div class="flex-grow-1" style="overflow-y: auto; padding-bottom: 80px;">
-        <h2 class="mb-3 text-primary">Abjad Online</h2>
-        <button class="btn btn-outline-primary mb-3">Preview</button>
-        <ul class="nav flex-column">
+        <div class="logo-container mb-4">
+            <h2 class="site-logo">
+                <span class="gradient-text">Abjad</span>
+                <span class="online-badge">Online</span>
+            </h2>
+        </div>         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link text-dark" href="#"><i class="fas fa-home me-2"></i> Home</a>
             </li>
@@ -45,6 +48,8 @@
                 <div class="collapse" id="settingsMenu">
                     <ul class="list-unstyled ps-4 submenu">
                         <li><a class="nav-link text-dark" href="{{ route('settings.countries.index') }}">Countries</a></li>
+                        <li><a class="nav-link text-dark" href="{{ route('settings.currencies.index') }}">Currencies</a></li>
+
                         <li><a class="nav-link text-dark" href="{{ route('settings.financial') }}">Finance</a></li>
                         <li><a class="nav-link text-dark" href="{{ route('settings.authentication.general') }}">Authentication</a></li>
                     </ul>
@@ -195,5 +200,72 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .fa-chevron-down {
     transition: transform 0.25s ease-out;
+}
+.logo-container {
+    padding: 15px 0;
+    position: relative;
+    text-align: center;
+}
+
+.site-logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transform: perspective(400px) rotateX(5deg);
+    display: inline-block;
+    position: relative;
+    cursor: default;
+    margin: 0;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #2b6cb0 0%, #3182ce 50%, #63b3ed 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(43,108,176,0.15);
+    position: relative;
+    padding-right: 8px;
+}
+
+.online-badge {
+    color: #48bb78;
+    font-size: 1.4rem;
+    position: relative;
+    top: -3px;
+    background: rgba(72,187,120,0.1);
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(72,187,120,0.3);
+    animation: pulse 2s infinite;
+}
+
+.site-logo::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #3182ce 50%, transparent 100%);
+    opacity: 0.6;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.site-logo:hover {
+    animation: logoHover 0.8s ease;
+}
+
+@keyframes logoHover {
+    0% { transform: perspective(400px) rotateX(5deg) translateY(0); }
+    50% { transform: perspective(400px) rotateX(5deg) translateY(-3px); }
+    100% { transform: perspective(400px) rotateX(5deg) translateY(0); }
 }
 </style>
